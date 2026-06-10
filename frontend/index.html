@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Vendas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1><span class="logo-icon">🛒</span> Sistema de Vendas</h1>
+  </div>
+  <nav>
+    <div class="nav-item active" data-page="clientes">    <span class="nav-icon">👤</span> Clientes</div>
+    <div class="nav-item"        data-page="fornecedores"><span class="nav-icon">🏭</span> Fornecedores</div>
+    <div class="nav-item"        data-page="produtos">    <span class="nav-icon">📦</span> Produtos</div>
+    <div class="nav-item"        data-page="compras">     <span class="nav-icon">🛒</span> Compras</div>
+    <div class="nav-item"        data-page="pedidos">     <span class="nav-icon">📋</span> Pedidos</div>
+    <div class="nav-item"        data-page="cidades">     <span class="nav-icon">🏙️</span> Cidades</div>
+    <div class="nav-item"        data-page="formas">      <span class="nav-icon">💳</span> Formas de Pagamento</div>
+    <div class="nav-item"        data-page="condicoes">   <span class="nav-icon">📅</span> Condições de Pagamento</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="nav-item logout" onclick="window.location.reload()"><span class="nav-icon">🚪</span> Sair</div>
+  </div>
+</aside>
+
+<div class="main">
+
+  <!-- ── CLIENTES ─────────────────────────────────── -->
+  <div class="page-section active" id="page-clientes">
+    <div class="page-header">
+      <h2>Clientes</h2>
+      <button class="btn-new">+ Novo Cliente</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar clientes..." oninput="filterTable('tbl-clientes', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-clientes">
+          <thead>
+            <tr><th>Id</th><th>Nome</th><th>Endereço</th><th>Bairro</th><th>CEP</th><th>Cidade</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody-clientes"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORNECEDORES ──────────────────────────────── -->
+  <div class="page-section" id="page-fornecedores">
+    <div class="page-header">
+      <h2>Fornecedores</h2>
+      <button class="btn-new">+ Novo Fornecedor</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar fornecedores..." oninput="filterTable('tbl-fornecedores', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-fornecedores">
+          <thead>
+            <tr><th>Id</th><th>Nome</th><th>Endereço</th><th>Bairro</th><th>CEP</th><th>Cidade</th><th>CNPJ</th><th>E-mail</th><th>Telefone</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody-fornecedores"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRODUTOS ──────────────────────────────────── -->
+  <div class="page-section" id="page-produtos">
+    <div class="page-header">
+      <h2>Produtos</h2>
+      <button class="btn-new">+ Novo Produto</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar produtos..." oninput="filterTable('tbl-produtos', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-produtos">
+          <thead>
+            <tr><th>Id</th><th>Produto</th><th>Preço</th><th>Estoque</th><th>Descrição</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody-produtos"></tbody>
+        </table>
+      </div>
+      <div id="total-produtos" style="margin-top:10px;font-weight:600;color:var(--gray-600);font-size:13px"></div>
+    </div>
+  </div>
+
+  <!-- ── COMPRAS ───────────────────────────────────── -->
+  <div class="page-section" id="page-compras">
+    <div class="page-header">
+      <h2>Compras</h2>
+      <button class="btn-new">+ Nova Compra</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar compras..." oninput="filterTable('tbl-compras', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-compras">
+          <thead>
+            <tr><th>Id</th><th>Data</th><th>Fornecedor</th><th>Condição</th><th>Forma Pgto</th><th>Previsão</th><th>Total</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody-compras"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PEDIDOS ───────────────────────────────────── -->
+  <div class="page-section" id="page-pedidos">
+    <div class="page-header">
+      <h2>Pedidos</h2>
+      <button class="btn-new">+ Novo Pedido</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar pedidos..." oninput="filterTable('tbl-pedidos', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-pedidos">
+          <thead>
+            <tr><th>Id</th><th>Data</th><th>Cliente</th><th>Condição</th><th>Forma Pgto</th><th>Prazo</th><th>Total</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody-pedidos"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CIDADES ───────────────────────────────────── -->
+  <div class="page-section" id="page-cidades">
+    <div class="page-header">
+      <h2>Cidades</h2>
+      <button class="btn-new">+ Nova Cidade</button>
+    </div>
+    <div class="content">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar cidades..." oninput="filterTable('tbl-cidades', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-cidades">
+          <thead><tr><th>Id</th><th>Cidade</th><th>UF</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-cidades"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORMAS DE PAGAMENTO ───────────────────────── -->
+  <div class="page-section" id="page-formas">
+    <div class="page-header">
+      <h2>Formas de Pagamento</h2>
+      <button class="btn-new">+ Nova Forma</button>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table id="tbl-formas">
+          <thead><tr><th>Id</th><th>Descrição</th><th>Tipo</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-formas"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONDIÇÕES DE PAGAMENTO ────────────────────── -->
+  <div class="page-section" id="page-condicoes">
+    <div class="page-header">
+      <h2>Condições de Pagamento</h2>
+      <button class="btn-new">+ Nova Condição</button>
+    </div>
+    <div class="content">
+      <div class="table-wrap">
+        <table id="tbl-condicoes">
+          <thead><tr><th>Id</th><th>Descrição</th><th>Parcelas</th><th>Juros (%)</th><th>Ações</th></tr></thead>
+          <tbody id="tbody-condicoes"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAIS
+     ══════════════════════════════════════════════════════════ -->
+
+<!-- MODAL CLIENTE -->
+<div class="modal-overlay" id="modal-cliente">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-cliente-title">Cadastro de Cliente</h3>
+      <button class="modal-close" onclick="closeModal('modal-cliente')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="c-id">
+      <div class="form-grid">
+        <div class="form-group"><label>👤 Nome</label><input id="c-nome" placeholder="Nome completo"></div>
+        <div class="form-group"><label>📞 Telefone</label><input id="c-tel" placeholder="(00) 00000-0000" maxlength="15"></div>
+        <div class="form-group"><label>📍 Endereço</label><input id="c-end" placeholder="Rua, Avenida..."></div>
+        <div class="form-group"><label># Número</label><input id="c-num" placeholder="Número"></div>
+        <div class="form-group"><label>✉️ E-mail</label><input id="c-email" placeholder="E-mail" type="email"></div>
+        <div class="form-group"><label>🪪 CPF</label><input id="c-cpf" placeholder="000.000.000-00" maxlength="14"></div>
+        <div class="form-group"><label>📮 CEP</label><input id="c-cep" placeholder="00000-000" maxlength="9"></div>
+        <div class="form-group"><label>🏘️ Bairro</label><input id="c-bairro" placeholder="Bairro"></div>
+        <div class="form-group full"><label>🏙️ Cidade</label><select id="c-cidade"><option value="">Selecione a Cidade</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-cliente')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCliente()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PRODUTO -->
+<div class="modal-overlay" id="modal-produto">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-produto-title">Cadastro de Produto</h3>
+      <button class="modal-close" onclick="closeModal('modal-produto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="p-id">
+      <div class="form-grid">
+        <div class="form-group"><label>📦 Nome</label><input id="p-nome" placeholder="Nome do produto"></div>
+        <div class="form-group"><label>💰 Preço de Venda (R$)</label><input id="p-preco" placeholder="0.00" type="number" min="0" step="0.01"></div>
+        <div class="form-group">
+          <label>📦 Estoque Atual</label>
+          <input id="p-estoque" placeholder="0" type="number" readonly
+            style="background:var(--gray-100);cursor:not-allowed;color:var(--gray-500);border-style:dashed"
+            title="O estoque é controlado automaticamente pelas Compras">
+          <span style="font-size:11px;color:var(--gray-400);margin-top:2px;display:block">🔒 Gerenciado pelas Compras</span>
+        </div>
+        <div class="form-group full"><label>📝 Descrição</label><textarea id="p-desc" placeholder="Descrição opcional do produto"></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-produto')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveProduto()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PEDIDO -->
+<div class="modal-overlay" id="modal-pedido">
+  <div class="modal" style="width:780px">
+    <div class="modal-header">
+      <h3 id="modal-pedido-title">Novo Pedido</h3>
+      <button class="modal-close" onclick="closeModal('modal-pedido')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="ped-id">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div class="form-group"><label>👤 Cliente</label><select id="ped-cliente"><option value="">Selecionar Cliente</option></select></div>
+        <div class="form-group">
+          <label>📅 Condição de Pagamento
+            <span id="ped-juros-badge" style="display:none;margin-left:8px;background:var(--red);color:white;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700"></span>
+          </label>
+          <select id="ped-condicao"><option value="">Selecionar Condição</option></select>
+        </div>
+        <div class="form-group"><label>💳 Forma de Pagamento</label><select id="ped-forma"><option value="">Selecionar Forma</option></select></div>
+        <div class="form-group">
+          <label>🔖 Status</label>
+          <select id="ped-status">
+            <option value="Aberto">Aberto</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluído">Concluído</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
+        <div class="form-group"><label>📆 Data do Pedido</label><input id="ped-data" type="date"></div>
+        <div class="form-group"><label>🚚 Prazo de Entrega</label><input id="ped-prazo" type="date"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:700;color:var(--navy)">
+        Itens do Pedido
+        <button class="btn-new" style="padding:6px 14px;font-size:12px" onclick="openProdPicker()">+ Adicionar Produto</button>
+      </div>
+      <div class="table-wrap" style="max-height:200px;overflow-y:auto">
+        <table>
+          <thead><tr><th>Produto</th><th>Qtd</th><th>Preço Unit.</th><th>Subtotal</th><th></th></tr></thead>
+          <tbody id="tbody-itens-pedido"></tbody>
+        </table>
+      </div>
+      <div id="ped-parcelamento"></div>
+      <div id="ped-total-line" style="margin-top:12px;font-weight:700;color:var(--navy);font-size:18px;text-align:right">Total: R$ 0,00</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-pedido')">Cancelar</button>
+      <button class="btn btn-success" onclick="savePedido()">Finalizar Pedido</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SELEÇÃO DE PRODUTO (picker do pedido) -->
+<div class="modal-overlay" id="modal-prod-picker">
+  <div class="modal" style="width:640px">
+    <div class="modal-header">
+      <h3>Selecionar Produto</h3>
+      <button class="modal-close" onclick="closeModal('modal-prod-picker')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom:16px">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar produto..." oninput="filterTable('tbl-picker', this.value)">
+      </div>
+      <div class="table-wrap">
+        <table id="tbl-picker">
+          <thead><tr><th>Id</th><th>Produto</th><th>Preço</th><th>Estoque</th><th></th></tr></thead>
+          <tbody id="tbody-picker"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CIDADE -->
+<div class="modal-overlay" id="modal-cidade">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <h3 id="modal-cidade-title">Cadastrar Cidade</h3>
+      <button class="modal-close" onclick="closeModal('modal-cidade')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cid-id">
+      <div class="form-group" style="margin-bottom:16px"><label>🏙️ Nome da Cidade</label><input id="cid-nome" placeholder="Nome"></div>
+      <div class="form-group"><label>🗺️ UF</label><input id="cid-uf" placeholder="Ex: MG" maxlength="2" style="text-transform:uppercase"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-cidade')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCidade()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORMA DE PAGAMENTO -->
+<div class="modal-overlay" id="modal-forma">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <h3 id="modal-forma-title">Forma de Pagamento</h3>
+      <button class="modal-close" onclick="closeModal('modal-forma')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="fp-id">
+      <div class="form-group" style="margin-bottom:16px"><label>📋 Descrição</label><input id="fp-nome" placeholder="Ex: Cartão de Crédito"></div>
+      <div class="form-group">
+        <label>🏷️ Tipo</label>
+        <select id="fp-tipo">
+          <option value="">Selecione o Tipo</option>
+          <option value="À Vista">À Vista</option>
+          <option value="À Prazo">À Prazo</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-forma')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveForma()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONDIÇÃO DE PAGAMENTO -->
+<div class="modal-overlay" id="modal-condicao">
+  <div class="modal" style="width:440px">
+    <div class="modal-header">
+      <h3 id="modal-condicao-title">Condição de Pagamento</h3>
+      <button class="modal-close" onclick="closeModal('modal-condicao')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cp-id">
+      <div class="form-group" style="margin-bottom:16px"><label>📋 Descrição</label><input id="cp-nome" placeholder="Ex: 30/60/90 dias"></div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label>🔢 Número de Parcelas</label>
+        <input id="cp-parcelas" placeholder="Ex: 3" type="number" min="1">
+      </div>
+      <div class="form-group">
+        <label>💰 Juros (%) — aplicado a partir de 3 parcelas</label>
+        <input id="cp-juros" placeholder="Ex: 2.50" type="number" min="0" step="0.01" style="border-left:3px solid var(--blue)">
+        <span style="font-size:11px;color:var(--gray-500);margin-top:4px;display:block">
+          0 = sem juros &nbsp;|&nbsp; 1x e 2x sempre sem juros &nbsp;|&nbsp; 3x em diante aplica o %
+        </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-condicao')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveCondicao()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL COMPRA -->
+<div class="modal-overlay" id="modal-compra">
+  <div class="modal modal-compra-wide">
+    <div class="modal-header">
+      <h3 id="modal-compra-title">Nova Compra</h3>
+      <button class="modal-close" onclick="closeModal('modal-compra')">✕</button>
+    </div>
+    <div class="modal-body" style="display:flex;gap:20px;padding:0;overflow:hidden;flex:1">
+
+      <!-- Esquerda: catálogo do fornecedor -->
+      <div class="compra-catalogo">
+        <div style="padding:16px 16px 8px;border-bottom:1px solid var(--gray-100)">
+          <p style="font-weight:700;color:var(--navy);margin-bottom:10px">📦 Catálogo do Fornecedor</p>
+          <div class="search-bar" style="margin:0;width:100%">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Buscar produto..." oninput="filterTable('tbl-picker-compra', this.value)">
+          </div>
+        </div>
+        <div style="overflow-y:auto;flex:1">
+          <table id="tbl-picker-compra" style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr>
+                <th style="padding:10px 12px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100)">Produto</th>
+                <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100)">Estoque</th>
+                <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100)">Custo (R$)</th>
+                <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100)">Qtd</th>
+                <th style="padding:10px 8px;background:var(--gray-100)"></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-picker-compra"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Direita: formulário + itens da compra -->
+      <div class="compra-form">
+        <div style="padding:16px;overflow-y:auto;flex:1">
+          <input type="hidden" id="cmp-id">
+          <div class="form-grid" style="margin-bottom:16px">
+            <div class="form-group"><label>🏭 Fornecedor</label><select id="cmp-fornecedor"><option value="">Selecionar Fornecedor</option></select></div>
+            <div class="form-group">
+              <label>📅 Condição de Pagamento
+                <span id="cmp-juros-badge" style="display:none;margin-left:8px;background:var(--red);color:white;border-radius:12px;padding:2px 8px;font-size:11px;font-weight:700"></span>
+              </label>
+              <select id="cmp-condicao"><option value="">Selecionar Condição</option></select>
+            </div>
+            <div class="form-group"><label>💳 Forma de Pagamento</label><select id="cmp-forma"><option value="">Selecionar Forma</option></select></div>
+            <div class="form-group">
+              <label>🔖 Status</label>
+              <select id="cmp-status">
+                <option value="Pendente">Pendente</option>
+                <option value="Confirmada">Confirmada</option>
+                <option value="Recebida">Recebida</option>
+                <option value="Cancelada">Cancelada</option>
+              </select>
+            </div>
+            <div class="form-group"><label>📆 Data da Compra</label><input id="cmp-data" type="date"></div>
+            <div class="form-group"><label>🚚 Previsão de Entrega</label><input id="cmp-previsao" type="date"></div>
+          </div>
+          <p style="font-weight:700;color:var(--navy);margin-bottom:10px;font-size:13px">🛒 Itens da Compra</p>
+          <div class="table-wrap" style="max-height:190px;overflow-y:auto">
+            <table>
+              <thead><tr><th>Produto</th><th>Qtd</th><th>Custo Unit.</th><th>Subtotal</th><th></th></tr></thead>
+              <tbody id="tbody-itens-compra"></tbody>
+            </table>
+          </div>
+          <div id="cmp-parcelamento"></div>
+          <div id="cmp-total-line" style="margin-top:12px;font-weight:700;color:var(--blue);font-size:17px;text-align:right">Total: R$ 0,00</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" onclick="closeModal('modal-compra')">Cancelar</button>
+      <button class="btn btn-success" onclick="saveCompra()">✅ Registrar Compra</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORNECEDOR -->
+<div class="modal-overlay" id="modal-fornecedor">
+  <div class="modal modal-fornecedor-wide">
+    <div class="modal-header">
+      <h3 id="modal-fornecedor-title">Cadastro de Fornecedor</h3>
+      <button class="modal-close" onclick="closeModal('modal-fornecedor')">✕</button>
+    </div>
+    <!-- Abas -->
+    <div class="forn-tabs">
+      <button class="forn-tab active" id="tab-dados"    onclick="trocarAbaForn('dados')">📋 Dados</button>
+      <button class="forn-tab"        id="tab-catalogo" onclick="trocarAbaForn('catalogo')" disabled>📦 Catálogo</button>
+    </div>
+    <!-- Aba Dados -->
+    <div class="modal-body" id="forn-aba-dados">
+      <input type="hidden" id="f-id">
+      <div class="form-grid">
+        <div class="form-group"><label>🏭 Nome</label><input id="f-nome" placeholder="Nome do Fornecedor"></div>
+        <div class="form-group"><label>📞 Telefone</label><input id="f-tel" placeholder="(00) 00000-0000" maxlength="15"></div>
+        <div class="form-group"><label>📍 Endereço</label><input id="f-end" placeholder="Rua, Avenida..."></div>
+        <div class="form-group"><label># Número</label><input id="f-num" placeholder="Número"></div>
+        <div class="form-group"><label>✉️ E-mail</label><input id="f-email" placeholder="E-mail" type="email"></div>
+        <div class="form-group"><label>🏢 CNPJ</label><input id="f-cnpj" placeholder="00.000.000/0000-00" maxlength="18"></div>
+        <div class="form-group"><label>📮 CEP</label><input id="f-cep" placeholder="00000-000" maxlength="9"></div>
+        <div class="form-group"><label>🏘️ Bairro</label><input id="f-bairro" placeholder="Bairro"></div>
+        <div class="form-group full"><label>🏙️ Cidade</label><select id="f-cidade"><option value="">Selecione a Cidade</option></select></div>
+      </div>
+    </div>
+    <!-- Aba Catálogo -->
+    <div id="forn-aba-catalogo" style="display:none;flex:1;overflow:hidden;flex-direction:column">
+      <div style="display:flex;gap:0;flex:1;overflow:hidden;max-height:calc(92vh - 160px)">
+        <!-- Esquerda: produtos disponíveis -->
+        <div style="width:48%;border-right:1px solid var(--gray-200);display:flex;flex-direction:column;overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--gray-100);flex-shrink:0">
+            <p style="font-weight:700;color:var(--navy);font-size:13px;margin-bottom:8px">➕ Adicionar ao Catálogo</p>
+            <div class="search-bar" style="margin:0;width:100%"><span>🔍</span><input type="text" placeholder="Buscar produto..." oninput="filterTable('tbl-disp', this.value)"></div>
+          </div>
+          <div style="overflow-y:auto;flex:1">
+            <table id="tbl-disp" style="width:100%;border-collapse:collapse">
+              <thead>
+                <tr>
+                  <th style="padding:10px 12px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100);position:sticky;top:0">Produto</th>
+                  <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100);position:sticky;top:0">Preço de Custo (R$)</th>
+                  <th style="padding:10px 8px;background:var(--gray-100);position:sticky;top:0"></th>
+                </tr>
+              </thead>
+              <tbody id="tbody-disp"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Direita: catálogo atual -->
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--gray-100);flex-shrink:0">
+            <p style="font-weight:700;color:var(--navy);font-size:13px">📋 Catálogo Atual</p>
+          </div>
+          <div style="overflow-y:auto;flex:1">
+            <table style="width:100%;border-collapse:collapse">
+              <thead>
+                <tr>
+                  <th style="padding:10px 12px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100);position:sticky;top:0">Produto</th>
+                  <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100);position:sticky;top:0">Preço de Custo</th>
+                  <th style="padding:10px 8px;text-align:left;font-size:11px;color:var(--gray-600);text-transform:uppercase;background:var(--gray-100);position:sticky;top:0">Estoque</th>
+                  <th style="padding:10px 8px;background:var(--gray-100);position:sticky;top:0"></th>
+                </tr>
+              </thead>
+              <tbody id="tbody-catalogo"></tbody>
+            </table>
+            <p id="catalogo-vazio" style="text-align:center;color:var(--gray-400);padding:24px;font-size:13px;display:none">Nenhum produto no catálogo ainda</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" id="forn-footer-dados">
+      <button class="btn btn-cancel" onclick="closeModal('modal-fornecedor')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveFornecedor()">Salvar e Continuar</button>
+    </div>
+    <div class="modal-footer" id="forn-footer-catalogo" style="display:none">
+      <button class="btn btn-cancel" onclick="closeModal('modal-fornecedor')">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span id="toast-icon"></span><span id="toast-msg"></span></div>
+
+<script src="script.js"></script>
+</body>
+</html>

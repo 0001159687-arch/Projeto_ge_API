@@ -1,0 +1,319 @@
+### BASE URL
+@base = http://localhost:3000
+
+# ==============================================================
+# CLIENTES
+# ==============================================================
+
+### Listar todos os clientes
+GET {{base}}/clientes
+
+### Buscar cliente por ID
+GET {{base}}/clientes/1
+
+### Criar cliente
+POST {{base}}/clientes
+Content-Type: application/json
+
+{
+  "nome":     "João Silva",
+  "telefone": "(32) 99999-0000",
+  "endereco": "Rua das Palmeiras",
+  "numero":   "100",
+  "bairro":   "Centro",
+  "cep":      "36500-000",
+  "cidade":   "Uba",
+  "cpf":      "111.222.333-44",
+  "email":    "joao@email.com"
+}
+
+### Atualizar cliente
+PUT {{base}}/clientes/1
+Content-Type: application/json
+
+{
+  "nome":     "João Silva Atualizado",
+  "telefone": "(32) 98888-0000",
+  "endereco": "Rua Nova",
+  "numero":   "200",
+  "bairro":   "Jardim",
+  "cep":      "36500-001",
+  "cidade":   "Uba",
+  "cpf":      "111.222.333-44",
+  "email":    "joao@email.com"
+}
+
+### Deletar cliente
+DELETE {{base}}/clientes/1
+
+# ==============================================================
+# FORNECEDORES
+# ==============================================================
+
+### Listar todos os fornecedores
+GET {{base}}/fornecedores
+
+### Buscar fornecedor por ID
+GET {{base}}/fornecedores/1
+
+### Criar fornecedor
+POST {{base}}/fornecedores
+Content-Type: application/json
+
+{
+  "nome":     "Móveis MG",
+  "telefone": "(31) 98765-4321",
+  "endereco": "Rua das Indústrias",
+  "numero":   "100",
+  "bairro":   "Centro",
+  "cep":      "30130-010",
+  "cidade":   "Belo Horizonte",
+  "cnpj":     "11.222.333/0001-81",
+  "email":    "contato@moveismg.com.br"
+}
+
+### Atualizar fornecedor
+PUT {{base}}/fornecedores/1
+Content-Type: application/json
+
+{
+  "nome":     "Móveis MG Atualizado",
+  "telefone": "(31) 98765-0000",
+  "endereco": "Av. Industrial",
+  "numero":   "500",
+  "bairro":   "Distrito Industrial",
+  "cep":      "30130-010",
+  "cidade":   "Belo Horizonte",
+  "cnpj":     "11.222.333/0001-81",
+  "email":    "contato@moveismg.com.br"
+}
+
+### Deletar fornecedor
+DELETE {{base}}/fornecedores/1
+
+# ==============================================================
+# CATÁLOGO DE FORNECEDOR
+# ==============================================================
+
+### Listar catálogo de um fornecedor
+GET {{base}}/catalogo/fornecedor/1
+
+### Listar produtos disponíveis (não cadastrados) para um fornecedor
+GET {{base}}/catalogo/fornecedor/1/disponiveis
+
+### Adicionar produto ao catálogo
+POST {{base}}/catalogo
+Content-Type: application/json
+
+{
+  "fornecedor_id": 1,
+  "produto_id":    1,
+  "preco_custo":   300.00
+}
+
+### Atualizar preço de custo no catálogo
+PUT {{base}}/catalogo/1
+Content-Type: application/json
+
+{ "preco_custo": 320.00 }
+
+### Remover produto do catálogo
+DELETE {{base}}/catalogo/1
+
+# ==============================================================
+# PRODUTOS
+# ==============================================================
+
+### Listar todos os produtos
+GET {{base}}/produtos
+
+### Buscar produto por ID
+GET {{base}}/produtos/1
+
+### Criar produto
+POST {{base}}/produtos
+Content-Type: application/json
+
+{
+  "nome":      "Armário Escritório",
+  "preco":     1200.00,
+  "descricao": "Armário de 2 portas para escritório"
+}
+
+### Atualizar produto
+PUT {{base}}/produtos/1
+Content-Type: application/json
+
+{
+  "nome":      "Cadeira Gamer",
+  "preco":     699.90,
+  "descricao": "Cadeira gamer ergonômica"
+}
+
+### Deletar produto
+DELETE {{base}}/produtos/1
+
+# ==============================================================
+# CIDADES
+# ==============================================================
+
+### Listar cidades
+GET {{base}}/cidades
+
+### Criar cidade
+POST {{base}}/cidades
+Content-Type: application/json
+
+{ "nome": "Belo Horizonte", "uf": "MG" }
+
+### Atualizar cidade
+PUT {{base}}/cidades/1
+Content-Type: application/json
+
+{ "nome": "Ubá", "uf": "MG" }
+
+### Deletar cidade
+DELETE {{base}}/cidades/3
+
+# ==============================================================
+# FORMAS DE PAGAMENTO
+# ==============================================================
+
+### Listar formas
+GET {{base}}/formas
+
+### Criar forma
+POST {{base}}/formas
+Content-Type: application/json
+
+{ "nome": "Transferência Bancária", "tipo": "À Vista" }
+
+### Atualizar forma
+PUT {{base}}/formas/1
+Content-Type: application/json
+
+{ "nome": "Dinheiro", "tipo": "À Vista" }
+
+### Deletar forma
+DELETE {{base}}/formas/6
+
+# ==============================================================
+# CONDIÇÕES DE PAGAMENTO
+# ==============================================================
+
+### Listar condições
+GET {{base}}/condicoes
+
+### Criar condição sem juros (até 2x)
+POST {{base}}/condicoes
+Content-Type: application/json
+
+{ "nome": "2x Sem Juros", "parcelas": 2, "juros": 0 }
+
+### Criar condição com juros (3x+)
+POST {{base}}/condicoes
+Content-Type: application/json
+
+{ "nome": "6x com Juros", "parcelas": 6, "juros": 2.50 }
+
+### Atualizar condição
+PUT {{base}}/condicoes/1
+Content-Type: application/json
+
+{ "nome": "À Vista", "parcelas": 1, "juros": 0 }
+
+### Deletar condição
+DELETE {{base}}/condicoes/4
+
+# ==============================================================
+# PEDIDOS
+# ==============================================================
+
+### Listar todos os pedidos
+GET {{base}}/pedidos
+
+### Buscar pedido por ID (retorna com itens)
+GET {{base}}/pedidos/1
+
+### Criar pedido com itens
+# Regra de juros: 1x e 2x = sem juros | 3x+ = aplica % da condição
+# total deve ser enviado calculado pelo frontend
+POST {{base}}/pedidos
+Content-Type: application/json
+
+{
+  "cliente":  "Faye",
+  "forma":    "PIX",
+  "condicao": "À Vista",
+  "data":     "2026-06-09",
+  "prazo":    "2026-06-16",
+  "status":   "Aberto",
+  "total":    1750.00,
+  "itens": [
+    { "produto_id": 1, "qtd": 2, "preco": 450.00 },
+    { "produto_id": 2, "qtd": 1, "preco": 850.00 }
+  ]
+}
+
+### Atualizar pedido
+PUT {{base}}/pedidos/1
+Content-Type: application/json
+
+{
+  "cliente":  "Faye",
+  "forma":    "PIX",
+  "condicao": "À Vista",
+  "data":     "2026-06-09",
+  "prazo":    "2026-06-16",
+  "status":   "Concluído",
+  "total":    1750.00
+}
+
+### Deletar pedido (restaura estoque automaticamente)
+DELETE {{base}}/pedidos/1
+
+# ==============================================================
+# COMPRAS
+# ==============================================================
+
+### Listar todas as compras
+GET {{base}}/compras
+
+### Buscar compra por ID (retorna com itens)
+GET {{base}}/compras/1
+
+### Criar compra com itens
+# total deve ser enviado calculado pelo frontend (com juros se 3x+)
+POST {{base}}/compras
+Content-Type: application/json
+
+{
+  "fornecedor": "Móveis MG",
+  "forma":      "Boleto Bancário",
+  "condicao":   "30 Dias",
+  "data":       "2026-06-09",
+  "previsao":   "2026-06-20",
+  "status":     "Pendente",
+  "total":      980.00,
+  "itens": [
+    { "produto_id": 1, "qtd": 3, "preco_custo": 300.00 },
+    { "produto_id": 2, "qtd": 1, "preco_custo": 80.00  }
+  ]
+}
+
+### Atualizar compra
+PUT {{base}}/compras/1
+Content-Type: application/json
+
+{
+  "fornecedor": "Móveis MG",
+  "forma":      "Boleto Bancário",
+  "condicao":   "30 Dias",
+  "data":       "2026-06-09",
+  "previsao":   "2026-06-20",
+  "status":     "Recebida",
+  "total":      980.00
+}
+
+### Deletar compra (reverte estoque automaticamente)
+DELETE {{base}}/compras/1
