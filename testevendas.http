@@ -1,0 +1,193 @@
+### BASE URL
+@base = http://localhost:3000
+
+# ==============================================================
+# CLIENTES
+# ==============================================================
+
+### Listar todos os clientes
+GET {{base}}/clientes
+
+### Buscar cliente por ID
+GET {{base}}/clientes/1
+
+### Criar cliente
+POST {{base}}/clientes
+Content-Type: application/json
+
+{
+  "nome":     "João Silva",
+  "endereco": "Rua das Palmeiras",
+  "numero":   "100",
+  "bairro":   "Centro",
+  "cep":      "36500-000",
+  "cidade":   "Uba",
+  "cpf":      "111.222.333-44",
+  "email":    "joao@email.com",
+  "telefone": "(32) 99999-0000"
+}
+
+### Atualizar cliente
+PUT {{base}}/clientes/1
+Content-Type: application/json
+
+{
+  "nome":     "João Silva Atualizado",
+  "endereco": "Rua Nova",
+  "numero":   "200",
+  "bairro":   "Jardim",
+  "cep":      "36500-001",
+  "cidade":   "Uba",
+  "cpf":      "111.222.333-44",
+  "email":    "joao@email.com",
+  "telefone": "(32) 98888-0000"
+}
+
+### Deletar cliente
+DELETE {{base}}/clientes/1
+
+# ==============================================================
+# PRODUTOS
+# ==============================================================
+
+### Listar todos os produtos
+GET {{base}}/produtos
+
+### Buscar produto por ID
+GET {{base}}/produtos/1
+
+### Criar produto
+POST {{base}}/produtos
+Content-Type: application/json
+
+{
+  "nome":      "Armário Escritório",
+  "unidade":   1,
+  "preco":     1200.00,
+  "estoque":   5,
+  "descricao": "Armário de 2 portas para escritório"
+}
+
+### Atualizar produto
+PUT {{base}}/produtos/1
+Content-Type: application/json
+
+{
+  "nome":    "Cadeira Gamer",
+  "unidade": 1,
+  "preco":   699.90,
+  "estoque": 8,
+  "descricao": "Cadeira gamer ergonômica"
+}
+
+### Deletar produto
+DELETE {{base}}/produtos/1
+
+# ==============================================================
+# PEDIDOS
+# ==============================================================
+
+### Listar todos os pedidos
+GET {{base}}/pedidos
+
+### Buscar pedido por ID (retorna com itens)
+GET {{base}}/pedidos/1
+
+### Criar pedido com itens
+POST {{base}}/pedidos
+Content-Type: application/json
+
+{
+  "cliente":  "Faye",
+  "forma":    "PIX",
+  "condicao": "À Vista",
+  "data":     "2026-05-18",
+  "prazo":    "2026-05-25",
+  "status":   "Aberto",
+  "itens": [
+    { "produto_id": 1, "qtd": 2, "preco": 450.00 },
+    { "produto_id": 2, "qtd": 1, "preco": 850.00 }
+  ]
+}
+
+### Atualizar status do pedido
+PUT {{base}}/pedidos/1
+Content-Type: application/json
+
+{
+  "cliente":  "Faye",
+  "forma":    "PIX",
+  "condicao": "À Vista",
+  "data":     "2026-05-18",
+  "prazo":    "2026-05-25",
+  "status":   "Concluido"
+}
+
+### Deletar pedido
+DELETE {{base}}/pedidos/1
+
+# ==============================================================
+# CIDADES
+# ==============================================================
+
+### Listar cidades
+GET {{base}}/cidades
+
+### Criar cidade
+POST {{base}}/cidades
+Content-Type: application/json
+
+{ "nome": "Belo Horizonte", "uf": "MG" }
+
+### Atualizar cidade
+PUT {{base}}/cidades/1
+Content-Type: application/json
+
+{ "nome": "Ubá", "uf": "MG" }
+
+### Deletar cidade
+DELETE {{base}}/cidades/3
+
+# ==============================================================
+# FORMAS DE PAGAMENTO
+# ==============================================================
+
+### Listar formas
+GET {{base}}/formas
+
+### Criar forma
+POST {{base}}/formas
+Content-Type: application/json
+
+{ "nome": "Transferência", "tipo": "À Vista" }
+
+### Atualizar forma
+PUT {{base}}/formas/1
+Content-Type: application/json
+
+{ "nome": "Dinheiro", "tipo": "À Vista" }
+
+### Deletar forma
+DELETE {{base}}/formas/6
+
+# ==============================================================
+# CONDIÇÕES DE PAGAMENTO
+# ==============================================================
+
+### Listar condições
+GET {{base}}/condicoes
+
+### Criar condição
+POST {{base}}/condicoes
+Content-Type: application/json
+
+{ "nome": "60 Dias", "parcelas": 2 }
+
+### Atualizar condição
+PUT {{base}}/condicoes/1
+Content-Type: application/json
+
+{ "nome": "À Vista", "parcelas": 1 }
+
+### Deletar condição
+DELETE {{base}}/condicoes/4
